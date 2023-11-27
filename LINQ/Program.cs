@@ -13,13 +13,43 @@ namespace LINQ
 
             var firstPerson = people.FirstOrDefault();
             var lastPerson = people.LastOrDefault();
+            var firstnamestartsWithA = people.FirstOrDefault(
+                person => person.FirstName.StartsWith("A")
+            );
+
+            var onlyfirstName = people.SingleOrDefault(person => person.Id == 10004);
+
+            // Math functions
+
+            var maxsalary = people.Max(person => person.Salary);
+            var minsalary = people.Min(person => person.Salary);
+            var averagesalary = people.Average(person => person.Salary);
             Console.WriteLine("***** First Person *****");
             Console.WriteLine(firstPerson);
-            Console.WriteLine();
-            Console.WriteLine("- - - - - - - - - - - - - - - - ");
+
             Console.WriteLine();
             Console.WriteLine("***** Last Person *****");
             Console.WriteLine(lastPerson);
+
+            Console.WriteLine();
+            Console.WriteLine("***** Starts with A *****");
+            Console.WriteLine(firstnamestartsWithA);
+
+            Console.WriteLine();
+            Console.WriteLine("***** Starts with A only *****");
+            Console.WriteLine(onlyfirstName);
+
+            Console.WriteLine();
+            Console.WriteLine("***** MAX SALARY *****");
+            Console.WriteLine(maxsalary);
+
+            Console.WriteLine();
+            Console.WriteLine("***** MIN SALARY *****");
+            Console.WriteLine(minsalary);
+
+            Console.WriteLine();
+            Console.WriteLine("***** AVERAGE SALARY *****");
+            Console.WriteLine(averagesalary);
         }
 
         static Person[] ReadPeopleData()
