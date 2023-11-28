@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 
 namespace LINQ
@@ -18,12 +19,18 @@ namespace LINQ
             );
 
             var onlyfirstName = people.SingleOrDefault(person => person.Id == 10004);
-
+            var sortedByBirthDate = people.OrderBy(person => person.Birthdate).ToArray();
+            var firstTenPeople = people.Take(10);
+            var skipTenPeople = people.Skip(10).Take(10);
             // Math functions
-
             var maxsalary = people.Max(person => person.Salary);
             var minsalary = people.Min(person => person.Salary);
             var averagesalary = people.Average(person => person.Salary);
+
+            int pagesize = 10;
+            int pagenumber = 3;
+
+            var pagination = people.Skip((pagenumber - 1) * pagesize).Take(pagesize);
             Console.WriteLine("***** First Person *****");
             Console.WriteLine(firstPerson);
 
@@ -50,6 +57,34 @@ namespace LINQ
             Console.WriteLine();
             Console.WriteLine("***** AVERAGE SALARY *****");
             Console.WriteLine(averagesalary);
+
+            Console.WriteLine();
+            Console.WriteLine("***** BIRTH DATE *****");
+            foreach (Person p in sortedByBirthDate)
+            {
+                Console.WriteLine($"{p.FirstName} {p.LastName} | {p.Birthdate}");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("***** TAKE 10 PEOPLE *****");
+            foreach (Person p in firstTenPeople)
+            {
+                Console.WriteLine($"ID - [{p.Id}]{p.FirstName} {p.LastName}");
+            }
+
+            //Console.WriteLine();
+            //Console.WriteLine("***** SKIP 10 PEOPLE *****");
+            //foreach (Person p in skipTenPeople)
+            //{
+            //    Console.WriteLine($"ID - [{p.Id}]{p.FirstName} {p.LastName}");
+            //}
+
+            Console.WriteLine();
+            Console.WriteLine("***** PAGINATION *****");
+            foreach (Person p in pagination)
+            {
+                Console.WriteLine($"ID - [{p.Id}]{p.FirstName} {p.LastName}");
+            }
         }
 
         static Person[] ReadPeopleData()
