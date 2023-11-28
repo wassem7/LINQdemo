@@ -27,10 +27,32 @@ namespace LINQ
             var minsalary = people.Min(person => person.Salary);
             var averagesalary = people.Average(person => person.Salary);
 
+            //Pagination
             int pagesize = 10;
             int pagenumber = 3;
 
             var pagination = people.Skip((pagenumber - 1) * pagesize).Take(pagesize);
+
+            //Where
+            var filteredpeople = people
+                .Where(
+                    person => person.Birthdate > new DateTime(1990, 1, 1) && person.Salary > 3600
+                )
+                .OrderBy(person => person.FirstName)
+                .Take(10);
+
+            //GROUPING
+
+            var groupbycities = people.GroupBy(g => g.City);
+
+            foreach (var citygroup in groupbycities)
+            {
+                Console.WriteLine($"{citygroup.Key}");
+                foreach (var group in citygroup)
+                {
+                    Console.WriteLine($"\t{group}");
+                }
+            }
             Console.WriteLine("***** First Person *****");
             Console.WriteLine(firstPerson);
 
@@ -65,16 +87,9 @@ namespace LINQ
                 Console.WriteLine($"{p.FirstName} {p.LastName} | {p.Birthdate}");
             }
 
-            Console.WriteLine();
-            Console.WriteLine("***** TAKE 10 PEOPLE *****");
-            foreach (Person p in firstTenPeople)
-            {
-                Console.WriteLine($"ID - [{p.Id}]{p.FirstName} {p.LastName}");
-            }
-
             //Console.WriteLine();
-            //Console.WriteLine("***** SKIP 10 PEOPLE *****");
-            //foreach (Person p in skipTenPeople)
+            //Console.WriteLine("***** TAKE 10 PEOPLE *****");
+            //foreach (Person p in firstTenPeople)
             //{
             //    Console.WriteLine($"ID - [{p.Id}]{p.FirstName} {p.LastName}");
             //}
@@ -84,6 +99,13 @@ namespace LINQ
             foreach (Person p in pagination)
             {
                 Console.WriteLine($"ID - [{p.Id}]{p.FirstName} {p.LastName}");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("***** WHERE *****");
+            foreach (Person p in filteredpeople)
+            {
+                Console.WriteLine(p);
             }
         }
 
